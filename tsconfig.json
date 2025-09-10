@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/components/Card.jsx", "app/components/Filters.tsx", "app/components/Grid.jsx", "app/pages/index.jsx", "app/page.jsx", "app/layout.jsx"],
   "exclude": ["node_modules"]
 }
