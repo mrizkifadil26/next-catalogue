@@ -37,10 +37,9 @@ const placeholder =
     "https://placehold.co/220x330.png?text=No+Poster&font=roboto&bg=333333&color=ffffff";
 
 
-
 export default function Card({ movie }) {
     return (
-        <div className="rounded-xl overflow-hidden shadow-lg bg-gray-900/80 border border-gray-800 hover:shadow-2xl hover:scale-105 transition-transform duration-300 flex flex-col h-full">
+        <div className="rounded-xl overflow-hidden shadow-lg bg-gray-900/80 border border-gray-800 flex flex-col h-full cursor-pointer">
             {/* Poster */}
             <div className="relative w-full h-72 flex-shrink-0">
                 <Image

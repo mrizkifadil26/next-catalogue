@@ -52,16 +52,19 @@ export default function Grid({ movies = [], limit = 12 }) {
                 </p>
             }
             scrollThreshold={0.9}
+            style={{
+                overflow: 'visible',
+            }}
         >
-            <div
-                className="
-          grid gap-6
-          xs:grid-cols-2 
-          md:grid-cols-4 
-        "
-            >
+            <div className="
+                grid gap-6
+                sm:grid-cols-2 
+                md:grid-cols-3
+                lg:grid-cols-4">
                 {items.map((m) => (
-                    <Card key={m.slug} movie={m} />
+                    <div key={m.slug} className="transform transition-transform duration-300 group-hover:scale-105 z-10">
+                        <Card movie={m} />
+                    </div>
                 ))}
             </div>
         </InfiniteScroll>
