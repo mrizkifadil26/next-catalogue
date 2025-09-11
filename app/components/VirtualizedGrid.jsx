@@ -1,37 +1,39 @@
 "use client";
 
-import { FixedSizeGrid as Grid } from "react-window";
+import React from "react";
+import { AutoSizer, Grid } from "react-virtualized";
 import Card from "./Card";
 
-export default function VirtualizedGrid({
-    movies,
-    columnCount = 5,
-    rowHeight = 350,
-}) {
-    const columnWidth = 200; // width of each card
-    const rowCount = Math.ceil(movies.length / columnCount);
+export default function VirtualizedGrid({ movies, cardWidth = 220, cardHeight = 380 }) {
+  return (
+    <div className="w-full h-[80vh]">
+      <AutoSizer>
+        {({ width, height }) => {
+          const columnCount = Math.max(Math.floor(width / cardWidth), 1);
+          const rowCount = Math.ceil(movies.length / columnCount);
 
-    return (
-        <div className="w-full overflow-auto">
+          return (
             <Grid
-                columnCount={columnCount}
-                columnWidth={columnWidth}
-                height={800} // viewport height
-                rowCount={rowCount}
-                rowHeight={rowHeight}
-                width={columnCount * columnWidth}
-            >
-                {({ columnIndex, rowIndex, style }) => {
-                    const movieIndex = rowIndex * columnCount + columnIndex;
-                    if (movieIndex >= movies.length) return null;
-                    const movie = movies[movieIndex];
-                    return (
-                        <div style={style} className="p-2">
-                            <Card movie={movie} />
-                        </div>
-                    );
-                }}
-            </Grid>
-        </div>
-    );
+              columnCount={columnCount}
+              columnWidth={cardWidth}
+              height={height}
+              rowCount={rowCount}
+              rowHeight={cardHeight}
+              width={width}
+              cellRenderer={({ columnIndex, rowIndex, key, style }) => {
+                const index = rowIndex * columnCount + columnIndex;
+                if (index >= movies.length) return null;
+
+                return (
+                  <div key={key} style={style} className="p-2">
+                    <Card movie={movies[index]} />
+                  </div>
+                );
+              }}
+            />
+          );
+        }}
+      </AutoSizer>
+    </div>
+  );
 }

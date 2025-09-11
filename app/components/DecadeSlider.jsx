@@ -68,14 +68,14 @@ export default function DecadeSlider({ state, setState }) {
             {/* Toggle */}
             <button
                 onClick={() => setOpen(!open)}
-                className="w-full flex justify-between items-center px-4 py-2 text-sm font-semibold text-gray-300 hover:bg-gray-800/60"
+                className="w-full flex justify-between items-center px-4 py-2 text-sm font-semibold text-gray-300 hover:bg-gray-800/60 cursor-pointer"
             >
                 <span>📅 Decade</span>
                 <span className="text-xs">{open ? "▲" : "▼"}</span>
             </button>
 
             {open && (
-                <div className="p-4">
+                <div className="p-6">
                     {/* Slider */}
                     <Range
                         values={localValue}
@@ -89,7 +89,7 @@ export default function DecadeSlider({ state, setState }) {
                                 onMouseDown={props.onMouseDown}
                                 onTouchStart={props.onTouchStart}
                                 ref={props.ref}
-                                className="h-2 w-full rounded"
+                                className="h-3 w-full rounded"
                                 style={{
                                     background: getTrackBackground({
                                         values: localValue,
@@ -132,7 +132,7 @@ export default function DecadeSlider({ state, setState }) {
                     {/* Reset */}
                     <button
                         onClick={reset}
-                        className="mt-3 text-xs text-pink-400 hover:underline"
+                        className="mt-4 text-xs text-pink-400 hover:underline cursor-pointer"
                     >
                         Reset
                     </button>

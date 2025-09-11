@@ -41,7 +41,7 @@ export default function GenreFilter({ genres, state, setState }) {
             {/* Header */}
             <button
                 onClick={() => setOpen(!open)}
-                className="w-full flex justify-between items-center px-4 py-2 text-sm font-semibold text-gray-300 hover:bg-gray-800/60 transition"
+                className="w-full flex justify-between items-center px-4 py-2 text-sm font-semibold text-gray-300 hover:bg-gray-800/60 transition cursor-pointer"
             >
                 <span className="flex items-center gap-2">
                     🎭 <span>Genres</span>
@@ -51,7 +51,7 @@ export default function GenreFilter({ genres, state, setState }) {
 
             {/* Pills */}
             {open && (
-                <div className="p-3 flex flex-wrap gap-2">
+                <div className="p-4 flex flex-wrap gap-2">
                     {genres.map((g) => {
                         const isActive = state.genre.includes(g);
                         const color = genreColors[g] || { text: "text-gray-400", border: "border-gray-700", ring: "ring-gray-400" };
@@ -61,7 +61,7 @@ export default function GenreFilter({ genres, state, setState }) {
                             <button
                                 key={g}
                                 onClick={() => toggleGenre(g)}
-                                className={`px-3 py-1.5 rounded-full text-xs font-medium border shadow-sm transition-all duration-200
+                                className={`px-3 py-1.5 rounded-full text-xs font-medium border shadow-sm transition-all duration-200 cursor-pointer
         ${isActive
                                         ? `${color.border} ${color.text} bg-gray-800/30 ring-1 ${color.ring}`
                                         : `border-gray-700 bg-gray-800 text-gray-400 hover:${color.border} hover:${color.text} hover:bg-gray-800/50`
