@@ -1,4 +1,7 @@
+import "../globals.css";
+
 import Image from "next/image";
+import * as Tooltip from "@radix-ui/react-tooltip";
 
 function toTitleCase(str) {
     return str.replace(
@@ -30,7 +33,6 @@ const genreColors = {
 };
 
 // Soft dark colors for language and tags
-const langColor = "bg-green-800/70"; // soft dark green
 const tagColor = "bg-pink-800/70"; // soft dark pink
 
 const placeholder =
@@ -59,9 +61,9 @@ export default function Card({ movie }) {
             </div>
 
             {/* Info */}
-            <div className="p-4 flex flex-col flex-1">
+            <div className="flex flex-col flex-1 p-4">
                 {/* Title + Year */}
-                <div className="flex-1 flex flex-col justify-center space-y-1">
+                <div className="flex flex-col space-y-1">
                     <h3 className="font-semibold text-base md:text-lg text-gray-100 line-clamp-2">
                         {movie.title}{" "}
                         {movie.original_title && movie.original_title !== movie.title && (
@@ -74,7 +76,7 @@ export default function Card({ movie }) {
                 </div>
 
                 {/* Genres */}
-                <div className="flex-grow flex flex-wrap gap-2 mt-2 items-start">
+                <div className="flex flex-wrap gap-2 mt-2">
                     {(movie.genres || []).map((g) => {
                         const color = genreColors[g] || "bg-gray-500/50";
                         return (
@@ -88,25 +90,47 @@ export default function Card({ movie }) {
                     })}
                 </div>
 
+                <div className="flex-1" />
+
                 {/* Language + Tags */}
-                <div className="flex-1 flex justify-between mt-4 items-center">
-                    {movie.language ? (
-                        <span
-                            className={`text-xs px-3 py-1 rounded-md text-white ${langColor} cursor-auto`}
-                        >
-                            {toTitleCase(movie.language)}
-                        </span>
-                    ) : (
-                        <div className="w-0" />
-                    )}
+                <div className="flex justify-between mt-4 items-center flex-wrap gap-2">
+                    <Tooltip.Provider delayDuration={700}> {/* shows only if hover ≥700ms */}
+                        <Tooltip.Root>
+                            <Tooltip.Trigger asChild>
+                                <span
+                                    className="
+    text-sm md:text-base font-semibold font-mono tracking-widest 
+    text-gray-500 cursor-default transition duration-300
+    hover:text-gray-200 hover:[text-shadow:0_0_6px_rgba(255,255,255,0.4)]
+  "
+                                >
+                                    {movie.lang_code.toUpperCase()}
+                                </span>
+
+                            </Tooltip.Trigger>
+                            <Tooltip.Portal>
+                                <Tooltip.Content
+                                    side="bottom"
+                                    sideOffset={6}
+                                    className={`
+          pointer-events-none select-none
+          px-3 py-2 text-sm md:text-base rounded-md
+          bg-gray-800/95 text-gray-200 shadow-lg
+          data-[state=delayed-open]:animate-fadeIn
+          data-[state=closed]:animate-fadeOut
+        `}
+                                >
+                                    {toTitleCase(movie.language)}
+                                    <Tooltip.Arrow className="fill-gray-800/95" />
+                                </Tooltip.Content>
+                            </Tooltip.Portal>
+                        </Tooltip.Root>
+                    </Tooltip.Provider>
 
                     {movie.tags && movie.tags.length > 0 && (
-                        <div className="flex gap-2">
+                        <div className="flex flex-wrap gap-2">
                             {movie.tags.map((tag) => (
-                                <span
-                                    key={tag}
-                                    className={`text-xs px-3 py-1 rounded-md text-white ${tagColor} cursor-auto`}
-                                >
+                                <span key={tag} className={`text-xs px-3 py-1 rounded-md text-white ${tagColor}`}>
                                     {toTitleCase(tag)}
                                 </span>
                             ))}

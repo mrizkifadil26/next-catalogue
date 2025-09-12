@@ -62,8 +62,10 @@ export default function Grid({ movies = [], limit = 12 }) {
                 md:grid-cols-3
                 lg:grid-cols-4">
                 {items.map((m) => (
-                    <div key={m.slug} className="transform transition-transform duration-300 group-hover:scale-105 z-10">
-                        <Card movie={m} />
+                    <div className="group relative">
+                        <div key={m.slug} className="h-full transform transition-transform duration-300 group-hover:scale-105 z-10">
+                            <Card movie={m} />
+                        </div>
                     </div>
                 ))}
             </div>

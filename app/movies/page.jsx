@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import SearchBox from "../components/SearchBox";
 import Filters from "../components/Filters";
 import Grid from "../components/Grid";
 
 export default function MoviePage() {
     const [movies, setMovies] = useState([]);
-
+    const [index, setIndex] = useState({});
+    const [suggestions, setSuggestions] = useState(null);
     const [state, setState] = useState({
         genre: [],
         decade: null,
@@ -14,12 +16,22 @@ export default function MoviePage() {
         search: "",
         language: null,
         tags: [],
+        selectedSlug: null,    // for title selection
+        selectedKey: null      // for actor/director selection
     });
 
     useEffect(() => {
         fetch("/data/movies.json")
-            .then((res) => res.json())
-            .then((data) => setMovies(data.movies));
+            .then(res => res.json())
+            .then(data => setMovies(data.movies));
+
+        fetch("/data/index.json")
+            .then(res => res.json())
+            .then(data => setIndex(data));
+
+        fetch("/data/suggestions.json")
+            .then(res => res.json())
+            .then(data => setSuggestions(data));
     }, []);
 
     const genres = Array.from(new Set(movies.flatMap((m) => m.genres))).sort();
@@ -31,6 +43,19 @@ export default function MoviePage() {
     );
 
     const filteredMovies = movies.filter((movie) => {
+        // 1️⃣ Exact movie selected
+        if (state.selectedSlug) {
+            return movie.slug === state.selectedSlug;
+        }
+
+        // 2️⃣ Actor or director selected
+        if (state.selectedKey) {
+            const byActor = index.by_actor?.[state.selectedKey]?.movies || [];
+            const byDirector = index.by_director?.[state.selectedKey]?.movies || [];
+            const slugs = [...byActor, ...byDirector];
+            if (slugs.length > 0) return slugs.includes(movie.slug);
+        }
+
         let pass = true;
 
         // GENRES
@@ -51,12 +76,9 @@ export default function MoviePage() {
             }
         }
 
-        // SEARCH
-        if (
-            state.search &&
-            !movie.title.toLowerCase().includes(state.search.toLowerCase())
-        ) {
-            return false;
+        // SEARCH (only if no identifier is set)
+        if (!state.selectedSlug && !state.selectedKey && state.search) {
+            pass = movie.title.toLowerCase().includes(state.search.toLowerCase());
         }
 
         // LANGUAGE
@@ -76,6 +98,13 @@ export default function MoviePage() {
     return (
         <div className="layout">
             <h1 className="text-2xl font-bold mb-4">Movie Catalogue</h1>
+            {/* Search box */}
+            <SearchBox
+                state={state}
+                setState={setState}
+                suggestions={suggestions}
+                index={index}
+            />
 
             {/* Filters */}
             <Filters
@@ -89,7 +118,6 @@ export default function MoviePage() {
             {/* Virtualized Grid */}
             <Grid
                 movies={filteredMovies}
-                limit={20}
             />
         </div>
     );

@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import clsx from "clsx";
 
-import SearchBox from "./SearchBox";
 import GenreFilter from "./GenreFilter";
 import DecadeSlider from "./DecadeSlider";
 import LanguageFilter from "./LanguageFilter";
@@ -50,9 +49,6 @@ export default function Filters({ genres, languages, tags, state, setState }) {
 
     return (
         <section className="w-full max-w-7xl mx-auto mb-6">
-            {/* Search box */}
-            <SearchBox state={state} setState={setState} />
-
             <div className="flex flex-wrap items-center gap-3 mb-3">
                 {/* Selected Filter Pills */}
                 <div className="flex flex-wrap gap-3 flex-1">
@@ -139,10 +135,10 @@ export default function Filters({ genres, languages, tags, state, setState }) {
 
                 <div
                     className={clsx(
-                        "overflow-hidden transition-all ease-in-out duration-300 bg-gray-900/90", // added background
+                        "overflow-hidden transition-all ease-in-out",
                         open
-                            ? "duration-500 rounded-b-lg"
-                            : "duration-200 rounded-b-none"
+                            ? "opacity-100 duration-500 rounded-b-lg bg-gray-900/90"
+                            : "opacity-0 duration-200 rounded-b-none bg-transparent"
                     )}
                     style={{ maxHeight: open ? `${height}px` : 0 }}
                 >

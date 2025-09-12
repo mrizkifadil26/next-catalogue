@@ -1,10 +1,24 @@
 import "./globals.css";
 import Link from "next/link";
 
+import { Inter, Roboto_Condensed, JetBrains_Mono } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const robotoCondensed = Roboto_Condensed({ subsets: ["latin"], variable: "--font-alt" });
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
+
 
 export default function RootLayout({ children }) {
     return (
-        <html lang="en" className="h-full bg-gradient-to-br from-gray-950 via-gray-900 to-black text-gray-100 antialiased">
+        <html
+            lang="en"
+            className={`
+        h-full 
+        bg-gradient-to-br from-gray-950 via-gray-900 to-black 
+        text-gray-100 antialiased 
+        ${inter.variable} ${robotoCondensed.variable} ${jetbrainsMono.variable}
+      `}
+        >
             <head>
                 <title>Movie Catalogue</title>
             </head>
