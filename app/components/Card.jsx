@@ -21,8 +21,33 @@ import {
     Shield,
     Sun,
     Film,
-    IceCream,
 } from "lucide-react";
+
+import { PiVideoCameraBold } from "react-icons/pi";
+import { LuDrama } from "react-icons/lu";
+import {
+    RiGhost2Line,
+    RiFolderImageLine,
+    RiKnifeBloodLine,
+    RiBearSmileLine,
+    RiMap2Line,
+    RiEmotionLaughLine,
+} from "react-icons/ri";
+import { LuAtom } from "react-icons/lu";
+import {
+    PiDetectiveBold,
+    PiCowboyHatBold,
+    PiMagicWandBold,
+    PiGavelBold,
+} from "react-icons/pi";
+import { TbHearts, TbTank } from "react-icons/tb";
+import { BiTargetLock } from "react-icons/bi";
+import { FaChildren } from "react-icons/fa6";
+import { LiaMaskSolid } from "react-icons/lia";
+import { FaMask } from "react-icons/fa";
+import { GiHandcuffs } from "react-icons/gi";
+import { FaHandcuffs } from "react-icons/fa6";
+
 
 function toTitleCase(str) {
     return str.replace(
@@ -54,22 +79,22 @@ const genreColors = {
 };
 
 const genreStyles = {
-    Action: { icon: Flame, color: "text-red-500" },
-    Adventure: { icon: Map, color: "text-green-500" },
-    Animation: { icon: Palette, color: "text-pink-500" },
-    Comedy: { icon: Laugh, color: "text-yellow-400" },
-    Crime: { icon: Gavel, color: "text-gray-400" },
-    Documentary: { icon: BookOpen, color: "text-indigo-400" },
-    Drama: { icon: Drama, color: "text-blue-400" },
-    Family: { icon: Users, color: "text-green-400" },
-    Fantasy: { icon: Sparkles, color: "text-purple-400" },
-    Horror: { icon: Ghost, color: "text-red-700" },
-    Mystery: { icon: Search, color: "text-teal-400" },
-    Romance: { icon: Heart, color: "text-pink-600" },
-    "Sci-Fi": { icon: Rocket, color: "text-cyan-400" },
-    Thriller: { icon: Eye, color: "text-orange-500" },
-    War: { icon: Shield, color: "text-gray-600" },
-    Western: { icon: Sun, color: "text-amber-500" },
+    Action: { icon: BiTargetLock, color: "text-red-400" },
+    Adventure: { icon: RiMap2Line, color: "text-green-500" },
+    Animation: { icon: RiBearSmileLine, color: "text-pink-400" },
+    Comedy: { icon: RiEmotionLaughLine, color: "text-yellow-400" },
+    Crime: { icon: FaHandcuffs, color: "text-slate-500" },
+    Documentary: { icon: PiVideoCameraBold, color: "text-green-600" },
+    Drama: { icon: LuDrama, color: "text-indigo-400" },
+    Family: { icon: FaChildren, color: "text-blue-400" },
+    Fantasy: { icon: PiMagicWandBold, color: "text-purple-400" },
+    Horror: { icon: RiGhost2Line, color: "text-rose-700" },
+    Mystery: { icon: PiDetectiveBold, color: "text-teal-500" },
+    Romance: { icon: TbHearts, color: "text-pink-600" },
+    "Sci-Fi": { icon: LuAtom, color: "text-cyan-500" },
+    Thriller: { icon: RiKnifeBloodLine, color: "text-red-400" },
+    War: { icon: TbTank, color: "text-gray-600" },
+    Western: { icon: PiCowboyHatBold, color: "text-amber-600" },
 
     // fallback
     Default: { icon: Film, color: "text-gray-300" },
@@ -140,48 +165,28 @@ export default function Card({ movie }) {
 
                 {/* Language + Tags + Status */}
                 <div className="flex justify-between mt-4 items-center flex-wrap gap-2">
-                    {/* Language tooltip */}
-                    <Tooltip.Provider delayDuration={700}>
-                        <Tooltip.Root>
-                            <Tooltip.Trigger asChild>
+                    {/* Tags */}
+                    {movie.tags && movie.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                            {movie.tags.map((tag) => (
                                 <span
-                                    className="
-                                        text-sm md:text-base font-semibold font-mono tracking-widest 
-                                        text-gray-500 cursor-default transition duration-300
-                                        hover:text-gray-200 hover:[text-shadow:0_0_6px_rgba(255,255,255,0.4)]
-                                    "
+                                    key={tag}
+                                    className={`text-xs px-3 py-1 rounded-md text-white ${tagColor}`}
                                 >
-                                    {movie.lang_code.toUpperCase()}
+                                    {toTitleCase(tag)}
                                 </span>
-                            </Tooltip.Trigger>
-                            <Tooltip.Portal>
-                                <Tooltip.Content
-                                    side="bottom"
-                                    sideOffset={6}
-                                    className="
-                                        pointer-events-none select-none
-                                        px-3 py-2 text-sm md:text-base rounded-md
-                                        bg-gray-800/95 text-gray-200 shadow-lg
-                                        data-[state=delayed-open]:animate-fadeIn
-                                        data-[state=closed]:animate-fadeOut
-                                    "
-                                >
-                                    {toTitleCase(movie.language)}
-                                    <Tooltip.Arrow className="fill-gray-800/95" />
-                                </Tooltip.Content>
-                            </Tooltip.Portal>
-                        </Tooltip.Root>
-                    </Tooltip.Provider>
+                            ))}
+                        </div>
+                    )}
 
                     {/* Right-side icons: Thumbnail + Subtitle */}
-                    <div className="flex items-center gap-2 mr-auto">
+                    <div className="flex items-center gap-2 ml-auto">
                         {/* Group */}
                         {movie.group && (
                             <Tooltip.Provider delayDuration={500}>
                                 <Tooltip.Root>
                                     <Tooltip.Trigger>
                                         <GenreBadge genre={movie.group} />
-                                        {/* <IceCream /> */}
                                     </Tooltip.Trigger>
                                     <Tooltip.Portal>
                                         <Tooltip.Content
@@ -200,7 +205,7 @@ export default function Card({ movie }) {
                         <Tooltip.Provider delayDuration={500}>
                             <Tooltip.Root>
                                 <Tooltip.Trigger asChild>
-                                    <ImageIcon
+                                    <RiFolderImageLine
                                         size={20}
                                         className={movie.thumbnail ? "text-green-400" : "text-gray-600"}
                                     />
@@ -241,19 +246,38 @@ export default function Card({ movie }) {
                         </Tooltip.Provider>
                     </div>
 
-                    {/* Tags */}
-                    {movie.tags && movie.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2">
-                            {movie.tags.map((tag) => (
+                    {/* Language tooltip */}
+                    <Tooltip.Provider delayDuration={700}>
+                        <Tooltip.Root>
+                            <Tooltip.Trigger asChild>
                                 <span
-                                    key={tag}
-                                    className={`text-xs px-3 py-1 rounded-md text-white ${tagColor}`}
+                                    className="
+                                        text-sm md:text-base font-semibold font-mono tracking-widest 
+                                        text-gray-500 cursor-default transition duration-300
+                                        hover:text-gray-200 hover:[text-shadow:0_0_6px_rgba(255,255,255,0.4)]
+                                    "
                                 >
-                                    {toTitleCase(tag)}
+                                    {movie.lang_code.toUpperCase()}
                                 </span>
-                            ))}
-                        </div>
-                    )}
+                            </Tooltip.Trigger>
+                            <Tooltip.Portal>
+                                <Tooltip.Content
+                                    side="bottom"
+                                    sideOffset={6}
+                                    className="
+                                        pointer-events-none select-none
+                                        px-3 py-2 text-sm md:text-base rounded-md
+                                        bg-gray-800/95 text-gray-200 shadow-lg
+                                        data-[state=delayed-open]:animate-fadeIn
+                                        data-[state=closed]:animate-fadeOut
+                                    "
+                                >
+                                    {toTitleCase(movie.language)}
+                                    <Tooltip.Arrow className="fill-gray-800/95" />
+                                </Tooltip.Content>
+                            </Tooltip.Portal>
+                        </Tooltip.Root>
+                    </Tooltip.Provider>
                 </div>
             </div>
         </div>
