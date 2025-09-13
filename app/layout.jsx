@@ -3,11 +3,14 @@
 import "./globals.css";
 import Link from "next/link";
 import { useState } from "react";
-import { Inter, Roboto_Condensed, JetBrains_Mono } from "next/font/google";
+import { Inter, Barlow, JetBrains_Mono } from "next/font/google";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
-const robotoCondensed = Roboto_Condensed({ subsets: ["latin"], variable: "--font-alt" });
+const robotoCondensed = Barlow({
+    subsets: ["latin"], weight: ['400', '700'], // specify only available weights
+    variable: "--font-alt"
+});
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export default function RootLayout({ children }) {
@@ -106,8 +109,8 @@ export default function RootLayout({ children }) {
                 </header>
 
                 {/* Main content */}
-                <main className="flex-1 w-full sm:max-w-7xl mx-auto p-2 sm:p-6">
-                    <div className="backdrop-blur-xl bg-gray-900/50 rounded-xl shadow-2xl border border-gray-800 p-4 sm:p-8">
+                <main className="flex-1 w-full sm:max-w-7xl mx-auto p-0 sm:p-6">
+                    <div className="backdrop-blur-xl sm:bg-gray-900/50 sm:rounded-xl shadow-2xl sm:border sm:border-gray-800 px-2 py-4 sm:p-8">
                         {children}
                     </div>
                 </main>

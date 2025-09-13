@@ -53,7 +53,7 @@ export default function Filters({ genres, languages, tags, groups, state, setSta
     ];
 
     return (
-        <section className="w-full max-w-7xl mx-auto mb-6">
+        <section className="w-full max-w-7xl mx-auto mb-3 sm:mb-6">
             <div className="flex flex-wrap items-center gap-3 mb-3">
                 {/* Selected Filter Pills */}
                 <div className="flex flex-wrap gap-3 flex-1">
@@ -143,8 +143,8 @@ export default function Filters({ genres, languages, tags, groups, state, setSta
                     className={clsx(
                         "w-full flex justify-between items-center px-4 py-3 text-sm font-semibold text-gray-300 bg-gray-900/40 border border-gray-800 transition cursor-pointer",
                         open
-                            ? "rounded-t-lg rounded-b-none" // when open, merge with dropdown
-                            : "rounded-t-lg rounded-b-md" // normal rounded corners on bottom
+                            ? "rounded-t-xl rounded-b-none" // when open, merge with dropdown
+                            : "rounded-t-xl rounded-b-xl" // normal rounded corners on bottom
                     )}
                 >
                     <span>🔧 Filters</span>

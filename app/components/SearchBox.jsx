@@ -158,7 +158,7 @@ export default function SearchBox({ state, setState, suggestions, index }) {
     }, [query]);
 
     return (
-        <div className="relative w-full mb-4">
+        <div className="relative w-full mb-1 sm:mb-4">
             <form onSubmit={handleSubmit} className="relative">
                 <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
 
@@ -183,7 +183,7 @@ export default function SearchBox({ state, setState, suggestions, index }) {
                     }}
                     onFocus={() => setShowSuggestions(true)}
                     onKeyDown={handleKeyDown}
-                    className="w-full pl-12 pr-12 py-3 rounded-full text-base bg-gray-800/70 border border-gray-700 
+                    className="w-full pl-12 pr-12 py-3 rounded-2xl text-base bg-gray-800/70 border border-gray-700 
                         focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 
                         placeholder-gray-400 text-gray-100 shadow-sm"
                 />

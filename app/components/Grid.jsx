@@ -54,7 +54,7 @@ export default function Grid({ movies = [], limit = 12 }) {
             scrollThreshold={0.9}
             style={{ overflow: "visible" }}
         >
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {items.map((m) => (
                     <div key={m.slug} className="group relative">
                         <div className="h-full transform transition-transform duration-300 group-hover:scale-105 z-10">
