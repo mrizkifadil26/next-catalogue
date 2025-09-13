@@ -16,6 +16,7 @@ export default function MoviePage() {
         search: "",
         language: null,
         tags: [],
+        group: null,
         selectedSlug: null,    // for title selection
         selectedKey: null      // for actor/director selection
     });
@@ -37,6 +38,7 @@ export default function MoviePage() {
     const genres = Array.from(new Set(movies.flatMap((m) => m.genres))).sort();
     const languages = Array.from(new Set(movies.map((m) => m.language))).sort();
     const tags = Array.from(new Set(movies.flatMap((m) => m.tags || []))).sort();
+    const groups = Array.from(new Set(movies.flatMap((m) => m.group || []))).sort();
 
     const years = Array.from(new Set(movies.map((m) => m.year))).sort(
         (a, b) => b - a
@@ -86,6 +88,11 @@ export default function MoviePage() {
             return false;
         }
 
+        // GROUPS
+        if (state.group && movie.group !== state.group) {
+            return false;
+        }
+
         // TAGS
         if (state.tags.length > 0) {
             if (!(movie.tags || []).some((t) => state.tags.includes(t)))
@@ -111,6 +118,7 @@ export default function MoviePage() {
                 genres={genres}
                 languages={languages}
                 tags={tags}
+                groups={groups}
                 state={state}
                 setState={setState}
             />

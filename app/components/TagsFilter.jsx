@@ -22,8 +22,8 @@ export default function TagsFilter({ tags, state, setState, compact = false }) {
                         key={tag}
                         onClick={() => toggleTag(tag)}
                         className={`rounded-full text-xs font-medium border transition cursor-pointer ${pxClass} ${pyClass} ${isActive
-                                ? "border-pink-500 text-pink-300 bg-pink-600/30"
-                                : "border-gray-700 text-gray-400 bg-gray-800 hover:border-pink-500 hover:text-pink-300"
+                            ? "border-pink-500 text-pink-300 bg-pink-600/30"
+                            : "border-gray-700 text-gray-400 bg-gray-800 hover:border-pink-500 hover:text-pink-300"
                             }`}
                     >
                         {toTitleCase(tag)}

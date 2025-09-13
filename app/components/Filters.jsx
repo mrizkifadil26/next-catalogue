@@ -7,15 +7,16 @@ import GenreFilter from "./GenreFilter";
 import DecadeSlider from "./DecadeSlider";
 import LanguageFilter from "./LanguageFilter";
 import TagsFilter from "./TagsFilter";
+import GroupFilter from "./GroupFilter";
 
-export default function Filters({ genres, languages, tags, state, setState }) {
+export default function Filters({ genres, languages, tags, groups, state, setState }) {
     const [open, setOpen] = useState(false);
     const [height, setHeight] = useState(0);
     const ref = useRef(null);
 
     useEffect(() => {
         if (ref.current) setHeight(ref.current.scrollHeight);
-    }, [genres, languages, tags, state, open]);
+    }, [genres, languages, tags, groups, state, open]);
 
     // Helper to remove a filter
     const removeFilter = (type, value) => {
@@ -35,6 +36,9 @@ export default function Filters({ genres, languages, tags, state, setState }) {
             case "tag":
                 setState({ ...state, tags: state.tags.filter((t) => t !== value) });
                 break;
+            case "group":
+                setState({ ...state, group: null });
+                break;
         }
     };
 
@@ -45,6 +49,7 @@ export default function Filters({ genres, languages, tags, state, setState }) {
         ...state.years.map((y) => ({ type: "year", value: y })),
         ...(state.language ? [{ type: "language", value: state.language }] : []),
         ...state.tags.map((t) => ({ type: "tag", value: t })),
+        ...(state.group ? [{ type: "group", value: state.group }] : []),
     ];
 
     return (
@@ -55,11 +60,17 @@ export default function Filters({ genres, languages, tags, state, setState }) {
                     {selectedFilters.map((f, idx) => {
                         // Determine color classes for pill
                         const colorClass =
-                            f.type === "genre" ? "text-red-400 border-red-400 bg-red-500/30 hover:bg-red-500/40" :
-                                f.type === "decade" || f.type === "year" ? "text-indigo-400 border-indigo-400 bg-indigo-500/30 hover:bg-indigo-500/40" :
-                                    f.type === "language" ? "text-purple-400 border-purple-400 bg-purple-500/30 hover:bg-purple-500/40" :
-                                        f.type === "tag" ? "text-pink-400 border-pink-400 bg-pink-500/30 hover:bg-pink-500/40" :
-                                            "text-gray-400 border-gray-400 bg-gray-500/30 hover:bg-gray-500/40";
+                            f.type === "genre"
+                                ? "text-red-400 border-red-400 bg-red-500/30 hover:bg-red-500/40"
+                                : f.type === "decade" || f.type === "year"
+                                    ? "text-indigo-400 border-indigo-400 bg-indigo-500/30 hover:bg-indigo-500/40"
+                                    : f.type === "language"
+                                        ? "text-purple-400 border-purple-400 bg-purple-500/30 hover:bg-purple-500/40"
+                                        : f.type === "tag"
+                                            ? "text-pink-400 border-pink-400 bg-pink-500/30 hover:bg-pink-500/40"
+                                            : f.type === "group"
+                                                ? "text-green-400 border-green-400 bg-green-500/30 hover:bg-green-500/40"
+                                                : "text-gray-400 border-gray-400 bg-gray-500/30 hover:bg-gray-500/40";
 
                         return (
                             <div
@@ -70,16 +81,22 @@ export default function Filters({ genres, languages, tags, state, setState }) {
                                 )}
                                 style={{ lineHeight: 1.2 }}
                             >
-                                <span className="whitespace-nowrap">{f.type === "tag" ? toTitleCase(f.value) : f.value}</span>
+                                <span className="whitespace-nowrap">{`${toTitleCase(f.type)}: ${toTitleCase(f.value)}`}</span>
                                 <button
                                     onClick={() => removeFilter(f.type, f.value)}
                                     className={clsx(
                                         "flex items-center justify-center w-5 h-5 rounded-full hover:brightness-125 cursor-pointer",
-                                        f.type === "genre" ? "text-red-400" :
-                                            f.type === "decade" || f.type === "year" ? "text-indigo-400" :
-                                                f.type === "language" ? "text-purple-400" :
-                                                    f.type === "tag" ? "text-pink-400" :
-                                                        "text-gray-400"
+                                        f.type === "genre"
+                                            ? "text-red-400"
+                                            : f.type === "decade" || f.type === "year"
+                                                ? "text-indigo-400"
+                                                : f.type === "language"
+                                                    ? "text-purple-400"
+                                                    : f.type === "tag"
+                                                        ? "text-pink-400"
+                                                        : f.type === "group"
+                                                            ? "text-green-400"
+                                                            : "text-gray-400"
                                     )}
                                 >
                                     <svg
@@ -110,6 +127,7 @@ export default function Filters({ genres, languages, tags, state, setState }) {
                                 years: [],
                                 language: null,
                                 tags: [],
+                                groups: [],
                             })
                         }
                     >
@@ -142,7 +160,7 @@ export default function Filters({ genres, languages, tags, state, setState }) {
                     )}
                     style={{ maxHeight: open ? `${height}px` : 0 }}
                 >
-                    <div ref={ref} className="p-4 grid grid-cols-1 lg:grid-cols-2 gap-6 auto-rows-min">
+                    <div ref={ref} className="p-4 grid grid-cols-1 md:grid-cols-2 gap-6 auto-rows-min">
                         {/* Left column */}
                         <div className="flex flex-col gap-4">
                             {/* Genres */}
@@ -185,6 +203,19 @@ export default function Filters({ genres, languages, tags, state, setState }) {
                                     </button>
                                 </div>
                                 <TagsFilter tags={tags} state={state} setState={setState} compact />
+                            </div>
+
+                            <div>
+                                <div className="flex justify-between items-center mb-2">
+                                    <h3 className="text-gray-300 text-sm font-semibold">Groups</h3>
+                                    <button
+                                        onClick={() => setState({ ...state, groups: [] })}
+                                        className="text-xs text-pink-400 hover:underline cursor-pointer"
+                                    >
+                                        Clear
+                                    </button>
+                                </div>
+                                <GroupFilter groups={groups} state={state} setState={setState} compact />
                             </div>
                         </div>
 

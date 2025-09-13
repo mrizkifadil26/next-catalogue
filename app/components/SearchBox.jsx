@@ -23,16 +23,30 @@ export default function SearchBox({ state, setState, suggestions, index }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         if (highlightedIndex >= 0 && filteredFlat[highlightedIndex]) {
             handleSelect(filteredFlat[highlightedIndex]);
         } else {
-            setState({
-                ...state,
-                search: query.trim(),
-                selectedSlug: null,
-                selectedKey: null,
-            });
+            const val = query.trim();
+
+            if (!val) {
+                // Reset when empty
+                setState({
+                    ...state,
+                    search: "",
+                    selectedSlug: null,
+                    selectedKey: null,
+                });
+            } else {
+                setState({
+                    ...state,
+                    search: val,
+                    selectedSlug: null,
+                    selectedKey: null,
+                });
+            }
         }
+
         setShowSuggestions(false);
     };
 
@@ -128,8 +142,9 @@ export default function SearchBox({ state, setState, suggestions, index }) {
                 prev > 0 ? prev - 1 : limited.length - 1
             );
         } else if (e.key === "Enter") {
-            e.preventDefault();
             if (highlightedIndex >= 0 && limited[highlightedIndex]) {
+                e.preventDefault();
+
                 handleSelect(limited[highlightedIndex]);
             }
         } else if (e.key === "Escape") {
