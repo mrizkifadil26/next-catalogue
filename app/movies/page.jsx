@@ -104,7 +104,6 @@ export default function MoviePage() {
 
     return (
         <div className="layout">
-            <h1 className="text-2xl font-bold mb-4">Movie Catalogue</h1>
             {/* Search box */}
             <SearchBox
                 state={state}

@@ -114,7 +114,7 @@ export default function Card({ movie }) {
     return (
         <div className="rounded-xl overflow-hidden shadow-lg bg-gray-900/80 border border-gray-800 flex flex-col h-full cursor-pointer">
             {/* Poster */}
-            <div className="relative w-full h-72 flex-shrink-0">
+            <div className="relative w-full aspect-[4/5] flex-shrink-0">
                 <Image
                     src={
                         movie.poster
@@ -124,26 +124,24 @@ export default function Card({ movie }) {
                     alt={movie.title}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 220px"
-                    onError={(e) => {
-                        e.currentTarget.src = placeholder; // fallback if 404
-                    }}
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 220px, 280px"
+                    onError={(e) => { e.currentTarget.src = placeholder; }}
                 />
             </div>
 
             {/* Info */}
-            <div className="flex flex-col flex-1 p-4">
+            <div className="flex flex-col flex-1 p-3 sm:p-4">
                 {/* Title + Year */}
                 <div className="flex flex-col space-y-1">
-                    <h3 className="font-semibold text-base md:text-lg text-gray-100 line-clamp-2">
+                    <h3 className="font-semibold text-sm sm:text-base md:text-lg text-gray-100 line-clamp-2">
                         {movie.title}{" "}
                         {movie.original_title && movie.original_title !== movie.title && (
-                            <span className="text-gray-400 text-sm">
+                            <span className="text-gray-400 text-xs sm:text-sm">
                                 ({movie.original_title})
                             </span>
                         )}
                     </h3>
-                    <p className="text-sm text-gray-400">{movie.year}</p>
+                    <p className="text-xs sm:text-sm text-gray-400">{movie.year}</p>
                 </div>
 
                 {/* Genres */}
@@ -153,7 +151,7 @@ export default function Card({ movie }) {
                         return (
                             <span
                                 key={g}
-                                className={`text-xs px-3 py-1 rounded-full text-white ${color}`}
+                                className={`text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-white ${color}`}
                             >
                                 {toTitleCase(g)}
                             </span>
@@ -164,14 +162,13 @@ export default function Card({ movie }) {
                 <div className="flex-1" />
 
                 {/* Language + Tags + Status */}
-                <div className="flex justify-between mt-4 items-center flex-wrap gap-2">
-                    {/* Tags */}
+                <div className="flex justify-between mt-3 sm:mt-4 items-center flex-wrap gap-1 sm:gap-2">
                     {movie.tags && movie.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-1 sm:gap-2">
                             {movie.tags.map((tag) => (
                                 <span
                                     key={tag}
-                                    className={`text-xs px-3 py-1 rounded-md text-white ${tagColor}`}
+                                    className={`text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-md text-white ${tagColor}`}
                                 >
                                     {toTitleCase(tag)}
                                 </span>
@@ -179,9 +176,8 @@ export default function Card({ movie }) {
                         </div>
                     )}
 
-                    {/* Right-side icons: Thumbnail + Subtitle */}
-                    <div className="flex items-center gap-2 ml-auto">
-                        {/* Group */}
+                    {/* Right-side icons */}
+                    <div className="flex items-center gap-1 sm:gap-2 ml-auto">
                         {movie.group && (
                             <Tooltip.Provider delayDuration={500}>
                                 <Tooltip.Root>
@@ -191,7 +187,7 @@ export default function Card({ movie }) {
                                     <Tooltip.Portal>
                                         <Tooltip.Content
                                             side="top"
-                                            className="px-2 py-1 text-sm rounded-md bg-gray-800/90 text-gray-200 shadow-lg"
+                                            className="px-2 py-1 text-xs sm:text-sm rounded-md bg-gray-800/90 text-gray-200 shadow-lg"
                                         >
                                             {movie.group}
                                             <Tooltip.Arrow className="fill-gray-800/90" />
@@ -201,19 +197,18 @@ export default function Card({ movie }) {
                             </Tooltip.Provider>
                         )}
 
-                        {/* Thumbnail availability */}
                         <Tooltip.Provider delayDuration={500}>
                             <Tooltip.Root>
                                 <Tooltip.Trigger asChild>
                                     <RiFolderImageLine
-                                        size={20}
+                                        size={18}
                                         className={movie.thumbnail ? "text-green-400" : "text-gray-600"}
                                     />
                                 </Tooltip.Trigger>
                                 <Tooltip.Portal>
                                     <Tooltip.Content
                                         side="top"
-                                        className="px-2 py-1 text-sm rounded-md bg-gray-800/90 text-gray-200 shadow-lg"
+                                        className="px-2 py-1 text-xs sm:text-sm rounded-md bg-gray-800/90 text-gray-200 shadow-lg"
                                     >
                                         {movie.thumbnail ? "Thumbnail available" : "No thumbnail"}
                                         <Tooltip.Arrow className="fill-gray-800/90" />
@@ -222,19 +217,18 @@ export default function Card({ movie }) {
                             </Tooltip.Root>
                         </Tooltip.Provider>
 
-                        {/* Subtitles */}
                         <Tooltip.Provider delayDuration={500}>
                             <Tooltip.Root>
                                 <Tooltip.Trigger asChild>
                                     <Captions
-                                        size={20}
+                                        size={18}
                                         className={subtitles.length > 0 ? "text-blue-400" : "text-gray-600"}
                                     />
                                 </Tooltip.Trigger>
                                 <Tooltip.Portal>
                                     <Tooltip.Content
                                         side="top"
-                                        className="px-2 py-1 text-sm rounded-md bg-gray-800/90 text-gray-200 shadow-lg max-w-xs"
+                                        className="px-2 py-1 text-xs sm:text-sm rounded-md bg-gray-800/90 text-gray-200 shadow-lg max-w-xs"
                                     >
                                         {subtitles.length > 0
                                             ? `Subtitles: ${subtitles.join(", ").toUpperCase()}`
@@ -251,11 +245,7 @@ export default function Card({ movie }) {
                         <Tooltip.Root>
                             <Tooltip.Trigger asChild>
                                 <span
-                                    className="
-                                        text-sm md:text-base font-semibold font-mono tracking-widest 
-                                        text-gray-500 cursor-default transition duration-300
-                                        hover:text-gray-200 hover:[text-shadow:0_0_6px_rgba(255,255,255,0.4)]
-                                    "
+                                    className="text-[10px] sm:text-sm font-semibold font-mono tracking-widest text-gray-500 cursor-default transition duration-300 hover:text-gray-200 hover:[text-shadow:0_0_6px_rgba(255,255,255,0.4)]"
                                 >
                                     {movie.lang_code.toUpperCase()}
                                 </span>
@@ -264,13 +254,7 @@ export default function Card({ movie }) {
                                 <Tooltip.Content
                                     side="bottom"
                                     sideOffset={6}
-                                    className="
-                                        pointer-events-none select-none
-                                        px-3 py-2 text-sm md:text-base rounded-md
-                                        bg-gray-800/95 text-gray-200 shadow-lg
-                                        data-[state=delayed-open]:animate-fadeIn
-                                        data-[state=closed]:animate-fadeOut
-                                    "
+                                    className="pointer-events-none select-none px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm rounded-md bg-gray-800/95 text-gray-200 shadow-lg data-[state=delayed-open]:animate-fadeIn data-[state=closed]:animate-fadeOut"
                                 >
                                     {toTitleCase(movie.language)}
                                     <Tooltip.Arrow className="fill-gray-800/95" />
