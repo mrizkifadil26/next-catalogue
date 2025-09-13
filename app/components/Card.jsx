@@ -131,8 +131,9 @@ export default function Card({ movie }) {
 
             {/* Info */}
             <div className="flex flex-col flex-1 p-3 sm:p-4">
-                {/* Title + Year */}
+                {/* Title + Year + Tags */}
                 <div className="flex flex-col space-y-1">
+                    {/* Title */}
                     <h3 className="font-semibold text-sm sm:text-base md:text-lg text-gray-100 line-clamp-2">
                         {movie.title}{" "}
                         {movie.original_title && movie.original_title !== movie.title && (
@@ -141,7 +142,19 @@ export default function Card({ movie }) {
                             </span>
                         )}
                     </h3>
-                    <p className="text-xs sm:text-sm text-gray-400">{movie.year}</p>
+
+                    {/* Year + single source tag */}
+                    <div className="flex justify-between items-center mt-1">
+                        {/* Year */}
+                        <p className="text-xs sm:text-sm text-gray-400 font-mono">{movie.year}</p>
+
+                        {/* Source tag */}
+                        {movie.tags && movie.tags.length > 0 && (
+                            <span className="text-[10px] sm:text-xs px-2 py-0.5 rounded border border-pink-600 text-pink-400 font-medium">
+                                {toTitleCase(movie.tags[0])}
+                            </span>
+                        )}
+                    </div>
                 </div>
 
                 {/* Genres */}
@@ -162,22 +175,9 @@ export default function Card({ movie }) {
                 <div className="flex-1" />
 
                 {/* Language + Tags + Status */}
-                <div className="flex justify-between mt-3 sm:mt-4 items-center flex-wrap gap-1 sm:gap-2">
-                    {movie.tags && movie.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-1 sm:gap-2">
-                            {movie.tags.map((tag) => (
-                                <span
-                                    key={tag}
-                                    className={`text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-md text-white ${tagColor}`}
-                                >
-                                    {toTitleCase(tag)}
-                                </span>
-                            ))}
-                        </div>
-                    )}
-
-                    {/* Right-side icons */}
-                    <div className="flex items-center gap-1 sm:gap-2 ml-auto">
+                <div className="flex flex-col sm:flex-row justify-between items-center mt-3 sm:mt-4 gap-2 w-full">
+                    {/* Right-side icons (desktop: left-aligned, mobile: centered) */}
+                    <div className="flex flex-1 justify-between sm:justify-start items-center gap-2 w-full sm:w-auto">
                         {movie.group && (
                             <Tooltip.Provider delayDuration={500}>
                                 <Tooltip.Root>
@@ -238,31 +238,32 @@ export default function Card({ movie }) {
                                 </Tooltip.Portal>
                             </Tooltip.Root>
                         </Tooltip.Provider>
-                    </div>
 
-                    {/* Language tooltip */}
-                    <Tooltip.Provider delayDuration={700}>
-                        <Tooltip.Root>
-                            <Tooltip.Trigger asChild>
-                                <span
-                                    className="text-[10px] sm:text-sm font-semibold font-mono tracking-widest text-gray-500 cursor-default transition duration-300 hover:text-gray-200 hover:[text-shadow:0_0_6px_rgba(255,255,255,0.4)]"
-                                >
-                                    {movie.lang_code.toUpperCase()}
-                                </span>
-                            </Tooltip.Trigger>
-                            <Tooltip.Portal>
-                                <Tooltip.Content
-                                    side="bottom"
-                                    sideOffset={6}
-                                    className="pointer-events-none select-none px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm rounded-md bg-gray-800/95 text-gray-200 shadow-lg data-[state=delayed-open]:animate-fadeIn data-[state=closed]:animate-fadeOut"
-                                >
-                                    {toTitleCase(movie.language)}
-                                    <Tooltip.Arrow className="fill-gray-800/95" />
-                                </Tooltip.Content>
-                            </Tooltip.Portal>
-                        </Tooltip.Root>
-                    </Tooltip.Provider>
+                        {/* Language tooltip */}
+                        <Tooltip.Provider delayDuration={700}>
+                            <Tooltip.Root>
+                                <Tooltip.Trigger asChild>
+                                    <span
+                                        className="text-[10px] sm:text-sm font-semibold font-mono tracking-widest text-gray-500 cursor-default transition duration-300 hover:text-gray-200 hover:[text-shadow:0_0_6px_rgba(255,255,255,0.4)]"
+                                    >
+                                        {movie.lang_code.toUpperCase()}
+                                    </span>
+                                </Tooltip.Trigger>
+                                <Tooltip.Portal>
+                                    <Tooltip.Content
+                                        side="bottom"
+                                        sideOffset={6}
+                                        className="pointer-events-none select-none px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm rounded-md bg-gray-800/95 text-gray-200 shadow-lg data-[state=delayed-open]:animate-fadeIn data-[state=closed]:animate-fadeOut"
+                                    >
+                                        {toTitleCase(movie.language)}
+                                        <Tooltip.Arrow className="fill-gray-800/95" />
+                                    </Tooltip.Content>
+                                </Tooltip.Portal>
+                            </Tooltip.Root>
+                        </Tooltip.Provider>
+                    </div>
                 </div>
+
             </div>
         </div>
     );

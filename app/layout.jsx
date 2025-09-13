@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
         <html
             lang="en"
             className={`
-                h-full 
+                h-full
                 bg-gradient-to-br from-gray-950 via-gray-900 to-black 
                 text-gray-100 antialiased 
                 ${inter.variable} ${robotoCondensed.variable} ${jetbrainsMono.variable}
@@ -30,12 +30,15 @@ export default function RootLayout({ children }) {
             <body className="min-h-screen flex flex-col relative">
                 {/* Background glow */}
                 <div className="absolute inset-0 -z-10">
-                    <div className="absolute top-1/4 left-1/3 w-72 h-72 bg-indigo-600/30 rounded-full blur-3xl" />
-                    <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl" />
+                    {/* Top-left glow */}
+                    <div className="absolute top-1/4 left-1/4 w-48 h-48 sm:w-72 sm:h-72 sm:left-1/3 bg-indigo-600/30 rounded-full blur-3xl" />
+
+                    {/* Bottom-right glow */}
+                    <div className="absolute bottom-1/3 right-1/6 w-64 h-64 sm:w-96 sm:h-96 sm:right-1/4 bg-pink-500/20 rounded-full blur-3xl" />
                 </div>
 
                 {/* Header */}
-                <header className="sticky top-0 z-50 backdrop-blur-md bg-gray-900/70 border-b border-gray-800 shadow-xl">
+                <header className="backdrop-blur-lg bg-gray-900/90 sm:bg-gray-900/70 sm:backdrop-blur-md shadow-lg">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
                         {/* Logo / Title */}
                         <h1 className="flex items-center gap-2 font-extrabold drop-shadow">
@@ -103,14 +106,14 @@ export default function RootLayout({ children }) {
                 </header>
 
                 {/* Main content */}
-                <main className="flex-1 w-full max-w-7xl mx-auto px-0 sm:p-6">
+                <main className="flex-1 w-full sm:max-w-7xl mx-auto p-2 sm:p-6">
                     <div className="backdrop-blur-xl bg-gray-900/50 rounded-xl shadow-2xl border border-gray-800 p-4 sm:p-8">
                         {children}
                     </div>
                 </main>
 
                 {/* Footer */}
-                <footer className="bg-gray-900/70 backdrop-blur-md border-t border-gray-800 py-4 text-center text-xs sm:text-sm text-gray-400">
+                <footer className="flex-none bg-gray-900/70 backdrop-blur-md border-t border-gray-800 py-4 text-center text-xs sm:text-sm text-gray-400">
                     © {new Date().getFullYear()} Movie Catalogue · Built with ❤️
                 </footer>
             </body>
