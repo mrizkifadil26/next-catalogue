@@ -53,8 +53,8 @@ export default function Filters({ genres, languages, tags, groups, state, setSta
     ];
 
     return (
-        <section className="w-full max-w-7xl mx-auto mb-3 sm:mb-6">
-            <div className="flex flex-wrap items-center gap-3 mb-3">
+        <section className="w-full max-w-7xl mx-auto mb-2 sm:mb-6">
+            <div className="flex flex-wrap items-center mb-2">
                 {/* Selected Filter Pills */}
                 <div className="flex flex-wrap gap-3 flex-1">
                     {selectedFilters.map((f, idx) => {

@@ -4,22 +4,6 @@ import Image from "next/image";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import {
     Image as ImageIcon, Captions,
-    Flame,
-    Map,
-    Palette,
-    Laugh,
-    Gavel,
-    Drama,
-    BookOpen,
-    Users,
-    Sparkles,
-    Ghost,
-    Search,
-    Heart,
-    Rocket,
-    Eye,
-    Shield,
-    Sun,
     Film,
 } from "lucide-react";
 
@@ -32,22 +16,18 @@ import {
     RiBearSmileLine,
     RiMap2Line,
     RiEmotionLaughLine,
+    RiLinkUnlinkM,
 } from "react-icons/ri";
 import { LuAtom } from "react-icons/lu";
 import {
     PiDetectiveBold,
     PiCowboyHatBold,
     PiMagicWandBold,
-    PiGavelBold,
 } from "react-icons/pi";
 import { TbHearts, TbTank } from "react-icons/tb";
 import { BiTargetLock } from "react-icons/bi";
 import { FaChildren } from "react-icons/fa6";
-import { LiaMaskSolid } from "react-icons/lia";
-import { FaMask } from "react-icons/fa";
-import { GiHandcuffs } from "react-icons/gi";
 import { FaHandcuffs } from "react-icons/fa6";
-
 
 function toTitleCase(str) {
     return str.replace(
@@ -97,7 +77,7 @@ const genreStyles = {
     Western: { icon: PiCowboyHatBold, color: "text-amber-600" },
 
     // fallback
-    Default: { icon: Film, color: "text-gray-300" },
+    Default: { icon: RiLinkUnlinkM, color: "text-gray-600" },
 };
 
 
@@ -130,10 +110,10 @@ export default function Card({ movie }) {
             </div>
 
             {/* Info */}
-            <div className="flex flex-col flex-1 p-3 sm:p-4 space-y-2">
-                <div>
-                    {/* Title */}
-                    <h3 className="font-semibold text-sm sm:text-base md:text-lg text-gray-100 line-clamp-2">
+            <div className="flex flex-col flex-1 p-3 sm:p-4 space-y-2 h-full">
+                {/* Title */}
+                <div className="flex-1">
+                    <h3 className="font-semibold text-sm sm:text-base md:text-lg text-gray-100 line-clamp-2 break-words">
                         {movie.title}{" "}
                         {movie.original_title && movie.original_title !== movie.title && (
                             <span className="text-gray-400 text-xs sm:text-sm">
@@ -144,20 +124,21 @@ export default function Card({ movie }) {
                 </div>
 
                 {/* Year + single source tag */}
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex justify-between items-center mb-3 sm:mb-4">
                     {/* Year */}
                     <p className="text-xs sm:text-sm text-gray-400 font-mono">{movie.year}</p>
 
                     {/* Source tag */}
                     {movie.tags && movie.tags.length > 0 && (
-                        <span className="text-[9px] sm:text-[10px] px-2 py-1 rounded-md border border-2 border-pink-600 text-pink-400 font-semibold font-alt uppercase">
+                        <span className="text-[9px] px-1.5 py-0.5 rounded-lg border border-2 border-pink-400 text-pink-400 font-medium font-mono uppercase">
                             {toTitleCase(movie.tags[0])}
                         </span>
                     )}
                 </div>
 
                 {/* Genres */}
-                <div className="flex flex-grow flex-wrap gap-2 items-start mb-4">
+                {/* Genres (fixed 2 lines height) */}
+                <div className="flex flex-wrap gap-2 overflow-hidden items-start" style={{ minHeight: '3rem', maxHeight: '3rem' }}>
                     {(movie.genres || []).map((g) => {
                         const color = genreColors[g] || "bg-gray-500/50";
                         return (
@@ -171,16 +152,16 @@ export default function Card({ movie }) {
                     })}
                 </div>
 
-                {/* <div className="flex-1" /> */}
+                {/* <div className="flex-1 mb-4"></div> */}
 
                 {/* Language + Tags + Status */}
-                <div className="flex justify-between items-center gap-2 w-full sm:w-auto">
-                    {movie.group && (
-                        <Tooltip.Provider delayDuration={500}>
-                            <Tooltip.Root>
-                                <Tooltip.Trigger>
-                                    <GenreBadge genre={movie.group} />
-                                </Tooltip.Trigger>
+                <div className="flex justify-between items-center gap-2 w-full sm:w-auto mt-auto">
+                    <Tooltip.Provider delayDuration={500}>
+                        <Tooltip.Root>
+                            <Tooltip.Trigger asChild>
+                                <GenreBadge genre={movie.group} />
+                            </Tooltip.Trigger>
+                            {movie.group && (
                                 <Tooltip.Portal>
                                     <Tooltip.Content
                                         side="top"
@@ -190,9 +171,10 @@ export default function Card({ movie }) {
                                         <Tooltip.Arrow className="fill-gray-800/90" />
                                     </Tooltip.Content>
                                 </Tooltip.Portal>
-                            </Tooltip.Root>
-                        </Tooltip.Provider>
-                    )}
+                            )}
+                        </Tooltip.Root>
+                    </Tooltip.Provider>
+
 
                     <Tooltip.Provider delayDuration={500}>
                         <Tooltip.Root>
@@ -260,7 +242,7 @@ export default function Card({ movie }) {
                     </Tooltip.Provider>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 
